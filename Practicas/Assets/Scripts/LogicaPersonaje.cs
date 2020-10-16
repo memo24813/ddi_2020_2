@@ -10,9 +10,9 @@ public class LogicaPersonaje : MonoBehaviour
     private Animator anim;
     public float x,y;
 
-    public Rigidbody rigidbody;
+    public Rigidbody rigidbodyplayer;
     public float fuerzaSalto = 6f;
-    public bool saltar,baile;
+    public bool saltar,baile,kick;
 
     public AudioSource source;
     // Start is called before the first frame update
@@ -20,8 +20,10 @@ public class LogicaPersonaje : MonoBehaviour
     {
         saltar = false;
         baile = false;
+        kick = false;
         anim = GetComponent<Animator>();
         source = GetComponent<AudioSource>();
+        rigidbodyplayer = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate() {
@@ -52,7 +54,7 @@ public class LogicaPersonaje : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 anim.SetBool("Salte",true);
-                rigidbody.AddForce(new Vector3(0,fuerzaSalto,0),ForceMode.Impulse);
+                rigidbodyplayer.AddForce(new Vector3(0,fuerzaSalto,0),ForceMode.Impulse);
             }
             anim.SetBool("ColisionSuelo",true);
         }
@@ -72,12 +74,27 @@ public class LogicaPersonaje : MonoBehaviour
         }
         else
         {
-            if(Input.GetKeyDown("g") || Input.GetKeyDown("w") || Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown("g") || Input.GetKeyDown("w") || Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.K))
             {
                 anim.SetBool("Baile",false);
                 baile=false;
                 source.Pause();
             }
+        }
+        
+        if(!kick)
+        {
+            if(Input.GetKeyDown(KeyCode.K))
+            {
+                anim.SetBool("Kick",true);
+                kick = true;
+                // Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsName("Kick"));
+            }
+        }    
+        else if(anim.GetCurrentAnimatorStateInfo(0).IsName("Kick"))
+        {
+            kick = false;
+            anim.SetBool("Kick",false);
         }
 
     }

@@ -34,4 +34,9 @@ public class Interactable : MonoBehaviour
         }  
         isInsideZone = false;
     }
+
+    protected void setKey(KeyCode key)
+    {
+        this.key = key;
+    }
 }

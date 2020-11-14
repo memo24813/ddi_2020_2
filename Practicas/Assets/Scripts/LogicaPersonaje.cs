@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityStandardAssets.CrossPlatformInput;
 public class LogicaPersonaje : MonoBehaviour
 {
 
@@ -12,7 +12,7 @@ public class LogicaPersonaje : MonoBehaviour
 
     public Rigidbody rigidbodyplayer;
     public float fuerzaSalto = 6f;
-    public bool saltar,baile,kick;
+    public bool saltar,baile,kick,botonKick,botonSalto,botonBaile;
 
     public AudioSource source;
     // Start is called before the first frame update
@@ -21,6 +21,9 @@ public class LogicaPersonaje : MonoBehaviour
         saltar = false;
         baile = false;
         kick = false;
+        botonKick = false;
+        botonSalto=false;
+        botonBaile=false;
         anim = GetComponent<Animator>();
         source = GetComponent<AudioSource>();
         rigidbodyplayer = GetComponent<Rigidbody>();
@@ -33,28 +36,33 @@ public class LogicaPersonaje : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        x = Input.GetAxis("Horizontal");
-        y = Input.GetAxis("Vertical");
+        // x = Input.GetAxis("Horizontal");
+        // y = Input.GetAxis("Vertical");
+        x = CrossPlatformInputManager.GetAxis("Horizontal");
+        y = CrossPlatformInputManager.GetAxis("Vertical");
+
 
 
         anim.SetFloat("VelX",x);
         anim.SetFloat("VelY",y);
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            velocidadMovimiento= 10.0f;
-        }
-        if(Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            velocidadMovimiento= 5.0f;
-        }
+        // if(Input.GetKeyDown(KeyCode.LeftShift))
+        // {
+        //     velocidadMovimiento= 10.0f;
+        // }
+        // if(Input.GetKeyUp(KeyCode.LeftShift))
+        // {
+        //     velocidadMovimiento= 5.0f;
+        // }
 
         if(saltar)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            // if(Input.GetKeyDown(KeyCode.Space))
+            if(botonSalto)
             {
                 anim.SetBool("Salte",true);
                 rigidbodyplayer.AddForce(new Vector3(0,fuerzaSalto,0),ForceMode.Impulse);
+                botonSalto=false;
             }
             anim.SetBool("ColisionSuelo",true);
         }
@@ -65,7 +73,8 @@ public class LogicaPersonaje : MonoBehaviour
 
         if(!baile)
         {
-            if(Input.GetKeyDown("g"))
+            // if(Input.GetKeyDown("g"))
+            if(botonBaile)
             {
                 anim.SetBool("Baile",true);
                 baile=true;    
@@ -74,20 +83,23 @@ public class LogicaPersonaje : MonoBehaviour
         }
         else
         {
-            if(Input.GetKeyDown("g") || Input.GetKeyDown("w") || Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.K))
+            // if(Input.GetKeyDown("g") || Input.GetKeyDown("w") || Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.K))
+            if(x!=0 || y!=0 || botonBaile==false || botonSalto==true|| botonKick==true)
             {
                 anim.SetBool("Baile",false);
                 baile=false;
                 source.Pause();
             }
         }
-        
+
         if(!kick)
         {
-            if(Input.GetKeyDown(KeyCode.K))
+            // if(Input.GetKeyDown(KeyCode.K))
+            if(botonKick)
             {
                 anim.SetBool("Kick",true);
                 kick = true;
+                botonKick=false;
                 // Debug.Log(anim.GetCurrentAnimatorStateInfo(0).IsName("Kick"));
             }
         }    
@@ -106,4 +118,21 @@ public class LogicaPersonaje : MonoBehaviour
         anim.SetBool("Salte",false);
 
     }
+    
+
+    public void Saltar()
+    {
+        botonSalto = true;
+    }
+
+    public void Bailar()
+    {
+        botonBaile=!botonBaile;
+    }
+
+    public void PunchEnter()
+    {
+       botonKick=true;
+    }
+ 
 }

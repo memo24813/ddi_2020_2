@@ -5,6 +5,7 @@ public class InventoryUI : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject pnlInventoryUI;
+    public GameObject pnlControl;
     private Inventory inventory;
     void Start()
     {
@@ -19,11 +20,11 @@ public class InventoryUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            pnlInventoryUI.SetActive(!pnlInventoryUI.activeSelf);
-            UpdateUI();
-        }
+        // if(Input.GetKeyDown(KeyCode.I))
+        // {
+        //     pnlInventoryUI.SetActive(!pnlInventoryUI.activeSelf);
+        //     UpdateUI();
+        // }
     }
 
 
@@ -38,5 +39,16 @@ public class InventoryUI : MonoBehaviour
             else 
                 slots[i].Clear();
         } 
+    }
+
+    public void ShowInventory()
+    {
+        pnlInventoryUI.SetActive(!pnlInventoryUI.activeSelf);
+        UpdateUI();
+    }
+
+    public void ControlsHide()
+    {
+        pnlControl.SetActive(!pnlControl.activeSelf);
     }
 }

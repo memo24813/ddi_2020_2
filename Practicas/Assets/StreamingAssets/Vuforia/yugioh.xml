@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="magooscuro" size="1.000000 1.455847" />
+    <ImageTarget name="magaoscura" size="1.000000 1.457436" />
+    <ImageTarget name="dragon" size="1.000000 1.480000" />
+  </Tracking>
+</QCARConfig>

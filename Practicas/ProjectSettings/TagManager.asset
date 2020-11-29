@@ -3,11 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - messageNPC
-  - optionDialog
-  - messageDialog
-  - piso
+  tags: []
   layers:
   - Default
   - TransparentFX
